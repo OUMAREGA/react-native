@@ -56,12 +56,12 @@ export default class Scan extends React.Component {
          }
          else
          {
-            this.setState({
-                productScanned: productScanned.indexOf(data) !== -1  ? productScanned : [...productScanned, data]
+           this.setState({
+                productScanned: this.state.productScanned.indexOf(data) !== -1  ? this.state.productScanned : [...this.state.productScanned, data]
             });
                 await AsyncStorage.setItem(
                   'Historique',
-                  this.state.productScanned
+                  JSON.stringify(this.state.productScanned)
                 );
 
             this.props.navigation.navigate('Details', {
