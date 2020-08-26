@@ -8,7 +8,7 @@ class Products extends React.Component{
         super(props);
         // Etat initial du composant
         this.state = { 
-            historique: []
+            products: []
         }
     }
     

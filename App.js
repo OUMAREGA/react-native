@@ -1,16 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Ionicons } from '@expo/vector-icons';
+
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from './src/screens/Home'
-import Products from './src/screens/Products'
+import Details from './src/screens/Details'
 import Favoris from './src/screens/Favoris'
 import Historique from './src/screens/Historique'
 import Scan from './src/components/Scan';
+import NotFound from './src/screens/NotFound';
 
 
 
@@ -21,10 +23,32 @@ function HomeStack() {
   return (
       <Stack.Navigator>
           <Stack.Screen name="IPSSI SCAN" component={Home} />
-          <Stack.Screen name="Favoris" component={Favoris} />
-          <Stack.Screen name="Historique" component={Historique} />
-          <Stack.Screen name="Scan" component={Scan} />
-
+          <Stack.Screen name="Details" component={Details} />
+      </Stack.Navigator>
+  );
+}
+function ScanStack() {
+  return (
+      <Stack.Navigator>
+          <Stack.Screen name="IPSSI SCAN" component={Scan} />
+          <Stack.Screen name="Details" component={Details} />
+          <Stack.Screen name="NotFound" component={NotFound} />
+      </Stack.Navigator>
+  );
+}
+function FavorisStack() {
+  return (
+      <Stack.Navigator>
+          <Stack.Screen name="IPSSI SCAN" component={Favoris} />
+          <Stack.Screen name="Details" component={Details} />
+      </Stack.Navigator>
+  );
+}
+function HistoriqueStack() {
+  return (
+      <Stack.Navigator>
+          <Stack.Screen name="IPSSI SCAN" component={Historique} />
+          <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
   );
 }
@@ -38,17 +62,27 @@ export default function App() {
             component={HomeStack} 
             options={{
                 tabBarLabel: 'Accueil',
-                tabBarIcon: () => <Icon name="home" size={24} type="Ionicons" />,
+                tabBarIcon: () => <Ionicons name = "md-home" size = {24} color = "black" />,
                 }}
             />
         <Tab.Screen 
-            name="Produits" 
-            component={Products} 
+            name="Scanner" 
+            component={ScanStack} 
             options={{
-                tabBarLabel: 'Produits',
-                tabBarIcon: () => <Icon name="list" size={24} type="Ionicons"  />,
+                tabBarLabel: 'Scanner',
+                tabBarIcon: () => <Ionicons name = "md-qr-scanner" size = {24} color = "black" />,
                 }}
             />
+            <Tab.Screen name="Favoris" component={FavorisStack} 
+            options={{
+              tabBarLabel: "Mes Favoris", 
+              tabBarIcon: () => <Ionicons name = "ios-heart" size = {24} color = "black" /> }}
+          />
+          <Tab.Screen name="Historique" component={HistoriqueStack} 
+            options={{
+              tabBarLabel: "Historique", 
+              tabBarIcon: () => <Ionicons name = "ios-archive" size = {24} color = "black" /> }}
+          />
     </Tab.Navigator>
 </NavigationContainer>
   );

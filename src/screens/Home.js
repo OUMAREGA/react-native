@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-native-elements';
 import { ActivityIndicator, SafeAreaView, FlatList, View, Text} from 'react-native';
 
-import Scan from '../components/Scan'
+import ListItem from '../components/ListItem';
 
 
 class Home extends React.Component{
@@ -10,30 +10,48 @@ class Home extends React.Component{
         super(props);
         // Etat initial du composant
         this.state = { 
-            historique: []
+            products: []
         }
     }
+
+    componentDidMount(){
+        fetch('https://fr.openfoodfacts.org/categorie/laits.json')
+           .then((response) => response.json())
+           .then((responseJson) => {
+
+               // Change l'état du composant
+               this.setState({
+                   products: responseJson.products,
+               });
+       
+           })
+           .catch((error) =>{
+               console.error(error);
+           });
+   }
     
-    render(){
+   render(){
+    // Affiche un loader tant que l'API n'a pas répondu
+    if(!this.state.products){
         return(
-            <View>
-    
-               <Button
-                    title="Scanner un produit"
-                    onPress={() => this.props.navigation.navigate('Scan')}
+            <SafeAreaView style={{flex: 1, padding: 20}}>
+                <ActivityIndicator/>
+            </SafeAreaView>
+        )
+    }
+    else{
+        return(
+            <SafeAreaView style={{flex: 1, paddingTop:20}}>
+                <FlatList
+                    data={this.state.products}
+                    renderItem={({item}) => <ListItem item={item} navigation={this.props.navigation}  />}
+                    keyExtractor={({id}, index) => id}
                 />
-                <Button
-                    title="Historique des scans"
-                    onPress={() => this.props.navigation.navigate('Historique')}
-                />
-                <Button
-                    title="Mes Favoris"
-                    onPress={() => this.props.navigation.navigate('Favoris')}
-                />
-            
-            </View>
+            </SafeAreaView>
         );
     }
+
+}
 }
 
 export default Home;
