@@ -21,7 +21,11 @@ const Stack = createStackNavigator();
 
 function HomeStack() {
   return (
-      <Stack.Navigator>
+      <Stack.Navigator 
+        screenOptions={{
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: 'tomato' },
+      }}>
           <Stack.Screen name="IPSSI SCAN" component={Home} />
           <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
@@ -29,16 +33,26 @@ function HomeStack() {
 }
 function ScanStack() {
   return (
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: 'tomato' },
+      }}
+      >
           <Stack.Screen name="IPSSI SCAN" component={Scan} />
           <Stack.Screen name="Details" component={Details} />
-          <Stack.Screen name="NotFound" component={NotFound} />
+          <Stack.Screen name="Produit non trouvé" component={NotFound} />
       </Stack.Navigator>
   );
 }
 function FavorisStack() {
   return (
-      <Stack.Navigator>
+      <Stack.Navigator 
+        screenOptions={{
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: 'tomato' },
+      }}
+      >
           <Stack.Screen name="IPSSI SCAN" component={Favoris} />
           <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
@@ -46,7 +60,12 @@ function FavorisStack() {
 }
 function HistoriqueStack() {
   return (
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: 'tomato' },
+      }}
+      >
           <Stack.Screen name="IPSSI SCAN" component={Historique} />
           <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
@@ -56,7 +75,11 @@ function HistoriqueStack() {
 export default function App() {
   return (
     <NavigationContainer>
-    <Tab.Navigator>
+    <Tab.Navigator tabBarOptions={{
+        activeTintColor: '#e67e22',
+        inactiveBackgroundColor: 'tomato',
+        inactiveTintColor: '#ffffff'
+      }}>
         <Tab.Screen 
             name="Accueil" 
             component={HomeStack} 
@@ -92,8 +115,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#e67e22'
   },
 });

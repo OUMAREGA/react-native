@@ -47,7 +47,7 @@ class ListFavoris extends React.Component{
     else{
         return(
             <SafeAreaView style={{flex: 1, paddingTop:20}}>
-                <Text >Mes Favoris</Text>
+                <Text style={{paddingLeft:20, paddingTop:20}}>Mes Favoris</Text>
                 <FlatList
                     data={this.state.favoris}   
                     renderItem={(item) => this.list(item)}
