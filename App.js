@@ -69,6 +69,7 @@ export default function App() {
             name="Scanner" 
             component={ScanStack} 
             options={{
+                unmountOnBlur: true,
                 tabBarLabel: 'Scanner',
                 tabBarIcon: () => <Ionicons name = "md-qr-scanner" size = {24} color = "black" />,
                 }}
