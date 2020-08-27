@@ -56,7 +56,7 @@ class ListHistorique extends React.Component{
     else{
         return(
             <SafeAreaView style={{flex: 1, paddingTop:20}}>
-                <Text style={{paddingLeft:20, paddingTop:20}}>Mes historiques</Text>
+                <Text style={{paddingLeft:20, paddingTop:20, color: 'tomato', fontSize: 20}}>Mes historiques</Text>
                 <FlatList
                     data={this.state.historique}
                     renderItem={(item) => this.list(item)}
