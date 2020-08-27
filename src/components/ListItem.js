@@ -4,14 +4,18 @@ import { Button, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AsyncStorage } from 'react-native';
 
+
+
             
 
 export default class ListItem extends React.Component{
+
+    
     
     constructor(props){
         super(props);
         this.state = {
-            favoris: []
+            favoris: [],
         }
     }
 
@@ -45,8 +49,22 @@ export default class ListItem extends React.Component{
         }
     }
 
+    delete = async (routeName, item) => {
+        let storedData = JSON.parse(await AsyncStorage.getItem(routeName));
+        console.log('before Stored data', storedData);
+        storedData = storedData.filter(el => !(el.product_name === item.product_name));
+        if(routeName === 'Favoris') {
+            await AsyncStorage.setItem('Favoris', JSON.stringify(storedData));
+        } else {
+            await AsyncStorage.setItem('Historique', JSON.stringify(storedData));
+        }
+        console.log('after Stored data', storedData );
+    }
+
     componentDidMount(){
-        console.log("mount",this.state.favoris)
+        // currentRouteName = this.state.navigationRef.current.getCurrentRoute().name;
+        console.log('currentRouteName', this.props.routeName)
+        
     }
     
     render() {
@@ -59,19 +77,36 @@ export default class ListItem extends React.Component{
                         style={{ alignSelf: 'center', width: '100%', height: 150}}
                         />
                     </TouchableOpacity>
-                    <Button 
-                            icon={
-                                <Icon
-                                  name="heart"
-                                  size={25}
-                                  color="#000000"
-                                />
-                            }
-                            iconLeft
-                            title="" 
-                            type="clear"
-                            onPress={() => this.favoris(this.props.item)}  
-                        />
+                    {(this.props.routeName === 'Favoris' || this.props.routeName === 'Historique') && (
+                        <Button 
+                        icon={
+                            <Icon
+                              name="trash"
+                              size={25}
+                              color="#000000"
+                            />
+                        }
+                        iconLeft
+                        title="" 
+                        type="clear"
+                        onPress={() => this.delete(this.props.routeName, this.props.item)}  
+                    />) 
+                    }
+                    {(this.props.routeName != 'Favoris' && this.props.routeName != 'Historique') &&(
+                        <Button 
+                        icon={
+                            <Icon
+                              name="heart"
+                              size={25}
+                              color="#000000"
+                            />
+                        }
+                        iconLeft
+                        title="" 
+                        type="clear"
+                        onPress={() => this.favoris(this.props.item)}  
+                    />) 
+                    }
                 </View>
             </Card>
             

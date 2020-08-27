@@ -13,7 +13,7 @@ class Historique extends React.Component{
     }
     render(){
         return(
-                <ListHistorique navigation={this.props.navigation} />
+            <ListHistorique navigation={this.props.navigation}/>
         );
     }
 }

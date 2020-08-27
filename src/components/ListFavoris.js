@@ -33,7 +33,7 @@ class ListFavoris extends React.Component{
         this.storage();
    }
 
-   list  = ({item}) => <ListItem item={item} navigation={this.props.navigation}  />
+   list  = ({item}) => <ListItem item={item} navigation={this.props.navigation} routeName='Favoris' />
 
    render(){
     // Affiche un loader tant que l'API n'a pas répondu
