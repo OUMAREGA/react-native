@@ -3,7 +3,6 @@ import { StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AsyncStorage } from 'react-native';
-import NavigationBar from 'react-native-navbar-color';
 
 export default class ListItem extends React.Component{
 
@@ -61,9 +60,6 @@ export default class ListItem extends React.Component{
     componentDidMount(){
         // currentRouteName = this.state.navigationRef.current.getCurrentRoute().name;
         console.log('currentRouteName', this.props.routeName)
-
-        //Change BottomTab backgroundColor
-        NavigationBar.setStatusBarTheme('#ffab8e')
     }
     
     render() {
