@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, View, Image } from 'react-native';
-import { Icon, Button } from 'react-native-elements'
+import { Text, View, Image } from 'react-native'
 
 
 export default class Details extends React.Component{
@@ -21,8 +20,6 @@ export default class Details extends React.Component{
                     <Text> Carégories : {this.props.route.params.product.categories}</Text>
                     <Text> Nutriscore : {this.props.route.params.product.nutriscore_score}</Text>
                     <Text> Quantité   : {this.props.route.params.product.nutrition_data_per}</Text>
-
-
             </View>
         );
     }

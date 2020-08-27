@@ -14,7 +14,7 @@ class Favoris extends React.Component{
     }
     render(){
         return(
-            <ListFavoris/>
+            <ListFavoris navigation={this.props.navigation} />
         );
     }
 }

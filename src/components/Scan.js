@@ -96,7 +96,7 @@ export default class Scan extends React.Component {
                     onBarCodeScanned={this.state.scanned ? undefined : this.handleBarCodeScanned}
 
                 />
-                   
+            
                     <Button style={{paddingTop: 100} } title={'Flash'} onPress={()=> this.changeFlash} />
                     <Button title={'Recommencer'} onPress={()=> this.setState({scanned: null})} />
             </View>

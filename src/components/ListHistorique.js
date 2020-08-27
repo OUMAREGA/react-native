@@ -17,25 +17,24 @@ class ListHistorique extends React.Component{
 
     storage = async () => {
             const value = await AsyncStorage.getItem('Historique');
-            this.setState({
-                tabCodeBar: JSON.parse(value) 
-            })
-            if (value !== null) {
-              console.log(value);
-            }
-
-            this.state.tabCodeBar.forEach(code => {
-                fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`) 
-                .then((response) => response.json())
-                .then( async (responseJson) => {
             
-                    this.setState({
-                            historique: [...this.state.historique, responseJson.product]
-                        });
+            if (value !== null) {
+                this.setState({
+                    tabCodeBar: JSON.parse(value) 
                 })
-                
-            });
 
+                this.state.tabCodeBar.forEach(code => {
+                    fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`) 
+                    .then((response) => response.json())
+                    .then( async (responseJson) => {
+                
+                        this.setState({
+                                historique: [...this.state.historique, responseJson.product]
+                            });
+                    })
+                    
+                });
+            }
 
    }
 
@@ -43,12 +42,14 @@ class ListHistorique extends React.Component{
         this.storage()
    }
 
+   list  = ({item}) => <ListItem item={item} navigation={this.props.navigation}  />
+
    render(){
     // Affiche un loader tant que l'API n'a pas répondu
-    if(!this.state.historique){
+    if(this.state.historique.length === 0){
         return(
             <SafeAreaView style={{flex: 1, padding: 20}}>
-                <ActivityIndicator/>
+               <Text>Vous avez zéro scan</Text>
             </SafeAreaView>
         )
     }
@@ -58,7 +59,7 @@ class ListHistorique extends React.Component{
                 <Text >Mes historiques</Text>
                 <FlatList
                     data={this.state.historique}
-                    renderItem={({item}) => <ListItem item={item} navigation={this.props.navigation}  />}
+                    renderItem={(item) => this.list(item)}
                     keyExtractor={({id}, index) => id}
                 />
             </SafeAreaView>
