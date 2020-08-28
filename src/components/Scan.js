@@ -49,7 +49,7 @@ export default class Scan extends React.Component {
      .then((response) => response.json())
      .then( async (responseJson) => {
 
-         if(responseJson.status_verbose === "product not found"){
+         if(responseJson.status_verbose === "product not found" || responseJson.status_verbose === "no code or invalid code"){
             this.props.navigation.navigate('NotFound', {
                 codeBar: data
             });

@@ -46,15 +46,29 @@ export default class ListItem extends React.Component{
     }
 
     delete = async (routeName, item) => {
-        let storedData = JSON.parse(await AsyncStorage.getItem(routeName));
+        /*let storedData = JSON.parse(await AsyncStorage.getItem(routeName));
         console.log('before Stored data', storedData);
         storedData = storedData.filter(el => !(el.product_name === item.product_name));
+        
+        await AsyncStorage.setItem(routeName, JSON.stringify(storedData));*/
+
         if(routeName === 'Favoris') {
+            let favorisData = JSON.parse(await AsyncStorage.getItem(routeName));
+            favorisData = favorisData.filter(el => !(el.product_name === item.product_name));
+            await AsyncStorage.setItem('Favoris', JSON.stringify(favorisData))
+        } 
+        
+        if(routeName === 'Historique'){
+            let histData = JSON.parse(await AsyncStorage.getItem(routeName));
+            histData = histData.filter(el => !(el.product_name === item.product_name));
+            await AsyncStorage.setItem('Historique', JSON.stringify(histData));
+        }
+
+        /*if(routeName === 'Favoris') {
             await AsyncStorage.setItem('Favoris', JSON.stringify(storedData));
         } else {
             await AsyncStorage.setItem('Historique', JSON.stringify(storedData));
-        }
-        console.log('after Stored data', storedData );
+        }*/
     }
 
     componentDidMount(){

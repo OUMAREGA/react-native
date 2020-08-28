@@ -24,7 +24,7 @@ function HomeStack() {
       <Stack.Navigator 
         screenOptions={{
         headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'tomato' },
+        headerStyle: { backgroundColor: '#e67e22' },
       }}>
           <Stack.Screen name="IPSSI SCAN" component={Home} />
           <Stack.Screen name="Details" component={Details} />
@@ -36,12 +36,12 @@ function ScanStack() {
       <Stack.Navigator
         screenOptions={{
         headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'tomato' },
+        headerStyle: { backgroundColor: '#e67e22' },
       }}
       >
           <Stack.Screen name="IPSSI SCAN" component={Scan} />
           <Stack.Screen name="Details" component={Details} />
-          <Stack.Screen name="Produit non trouvé" component={NotFound} />
+          <Stack.Screen name="NotFound" component={NotFound} />
       </Stack.Navigator>
   );
 }
@@ -50,10 +50,10 @@ function FavorisStack() {
       <Stack.Navigator 
         screenOptions={{
         headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'tomato' },
+        headerStyle: { backgroundColor: '#e67e22' },
       }}
       >
-          <Stack.Screen name="IPSSI SCAN" component={Favoris} />
+          <Stack.Screen name="Favoris" component={Favoris} />
           <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
   );
@@ -63,10 +63,10 @@ function HistoriqueStack() {
       <Stack.Navigator
         screenOptions={{
         headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'tomato' },
+        headerStyle: { backgroundColor: '#e67e22' },
       }}
       >
-          <Stack.Screen name="IPSSI SCAN" component={Historique} />
+          <Stack.Screen name="Historique" component={Historique} />
           <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
   );
@@ -77,7 +77,7 @@ export default function App() {
     <NavigationContainer>
     <Tab.Navigator tabBarOptions={{
         activeTintColor: '#e67e22',
-        inactiveBackgroundColor: 'tomato',
+        inactiveBackgroundColor: '#e67e22',
         inactiveTintColor: '#ffffff'
       }}>
         <Tab.Screen 

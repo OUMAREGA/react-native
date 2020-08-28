@@ -29,9 +29,17 @@ class ListFavoris extends React.Component{
         
    }
 
-    componentDidMount(){
-        this.storage();
-   }
+   componentDidMount(){
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+        // The screen is focused
+        // Call any action
+        this.storage()
+      });
+}
+
+componentWillUnmount() {
+this.focusListener();
+}
 
    list  = ({item}) => <ListItem item={item} navigation={this.props.navigation} routeName='Favoris' />
 
