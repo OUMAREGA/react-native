@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button,Vibration } from 'react-native';
+import { View, Text, Button,Vibration, ImageBackground } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { AsyncStorage } from 'react-native';
@@ -16,8 +16,7 @@ export default class Scan extends React.Component {
         this.state = {
             hasCameraPermission: null,
             type: Camera.Constants.Type.back,
-            isFlashOn: false,
-            flashState: Camera.Constants.FlashMode.torch,
+            flashMode: Camera.Constants.FlashMode.off,
             scanned: false,
             productScanned: []
         };
@@ -42,7 +41,6 @@ export default class Scan extends React.Component {
      });
 
      Vibration.vibrate();
-     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
 
      //get product
      fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`) 
@@ -56,27 +54,40 @@ export default class Scan extends React.Component {
          }
          else
          {
-           this.setState({
-                productScanned: this.state.productScanned.indexOf(data) !== -1  ? this.state.productScanned : [...this.state.productScanned, data]
-            });
-                await AsyncStorage.setItem(
-                  'Historique',
-                  JSON.stringify(this.state.productScanned)
-                );
+
+            try {
+                let getHistorique = JSON.parse(await AsyncStorage.getItem('Historique'));
+    
+                
+    
+                if (getHistorique === null || getHistorique >= 0) {
+                    getHistorique = [];
+                }
+
+                    getHistorique.push(responseJson.product);
+                    this.setState({productScanned: getHistorique})
+                    await AsyncStorage.setItem(
+                          'Historique',
+                          JSON.stringify(this.state.productScanned)
+                        );
+                        
+            } catch (e) {
+                console.error(e);
+            }
 
             this.props.navigation.navigate('Details', {
                 product: responseJson.product
             });   
+            
          }
-        
      })
 
     };
      
     changeFlash = () => {
-         this.state.isFlashOn ? 
-             this.setState({isFlashOn: false}) : 
-             this.setState({isFlashOn: true});
+        this.state.flashMode === Camera.Constants.FlashMode.torch ? 
+        this.setState({flashMode: Camera.Constants.FlashMode.off}) :
+        this.setState({flashMode: Camera.Constants.FlashMode.torch})
      }
 
     render() {
@@ -94,10 +105,12 @@ export default class Scan extends React.Component {
                     style={style.preview}
                     ref={camera => this.camera = camera}
                     onBarCodeScanned={this.state.scanned ? undefined : this.handleBarCodeScanned}
-
-                />
+                    flashMode={this.state.flashMode}
+                >
+                    <ImageBackground source={require('../../assets/scan_cadre.png')} resizeMode='cover' style={{width: 400, height: 400}}></ImageBackground>
+                </Camera>
             
-                    <Button style={{paddingTop: 100} } title={'Flash'} onPress={()=> this.changeFlash} />
+                    <Button style={{paddingTop: 100} } title={'Flash'} onPress={()=> this.changeFlash()} />
                     <Button title={'Recommencer'} onPress={()=> this.setState({scanned: null})} />
             </View>
         );

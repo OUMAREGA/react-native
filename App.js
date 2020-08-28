@@ -71,21 +71,21 @@ function HistoriqueStack() {
       </Stack.Navigator>
   );
 }
-
 export default function App() {
   return (
     <NavigationContainer>
     <Tab.Navigator tabBarOptions={{
-        activeTintColor: '#e67e22',
+        activeTintColor: '#white',
         inactiveBackgroundColor: '#e67e22',
-        inactiveTintColor: '#ffffff'
+        activeBackgroundColor: '#f39c12',
+        inactiveTintColor: 'white'
       }}>
         <Tab.Screen 
             name="Accueil" 
             component={HomeStack} 
             options={{
                 tabBarLabel: 'Accueil',
-                tabBarIcon: () => <Ionicons name = "md-home" size = {24} color = "black" />,
+                tabBarIcon: () => <Ionicons name = "md-home" size = {24} color = "white" />,
                 }}
             />
         <Tab.Screen 
@@ -94,18 +94,18 @@ export default function App() {
             options={{
                 unmountOnBlur: true,
                 tabBarLabel: 'Scanner',
-                tabBarIcon: () => <Ionicons name = "md-qr-scanner" size = {24} color = "black" />,
+                tabBarIcon: () => <Ionicons name = "md-qr-scanner" size = {24} color = "white" />,
                 }}
             />
             <Tab.Screen name="Favoris" component={FavorisStack} 
             options={{
               tabBarLabel: "Mes Favoris", 
-              tabBarIcon: () => <Ionicons name = "ios-heart" size = {24} color = "black" /> }}
+              tabBarIcon: () => <Ionicons name = "ios-heart" size = {24} color = "white" /> }}
           />
           <Tab.Screen name="Historique" component={HistoriqueStack} 
             options={{
               tabBarLabel: "Historique", 
-              tabBarIcon: () => <Ionicons name = "ios-archive" size = {24} color = "black" /> }}
+              tabBarIcon: () => <Ionicons name = "ios-archive" size = {24} color = "white" /> }}
           />
     </Tab.Navigator>
 </NavigationContainer>

@@ -38,7 +38,6 @@ export default class ListItem extends React.Component{
             if(!(favoris.find(element => item.product_name === element.product_name))) {
                 favoris.push(item);
                 await AsyncStorage.setItem('Favoris', JSON.stringify(favoris));
-                console.log("favoris",favoris)
             }
         } catch (e) {
             console.error(e);
@@ -46,11 +45,6 @@ export default class ListItem extends React.Component{
     }
 
     delete = async (routeName, item) => {
-        /*let storedData = JSON.parse(await AsyncStorage.getItem(routeName));
-        console.log('before Stored data', storedData);
-        storedData = storedData.filter(el => !(el.product_name === item.product_name));
-        
-        await AsyncStorage.setItem(routeName, JSON.stringify(storedData));*/
 
         if(routeName === 'Favoris') {
             let favorisData = JSON.parse(await AsyncStorage.getItem(routeName));
@@ -64,16 +58,6 @@ export default class ListItem extends React.Component{
             await AsyncStorage.setItem('Historique', JSON.stringify(histData));
         }
 
-        /*if(routeName === 'Favoris') {
-            await AsyncStorage.setItem('Favoris', JSON.stringify(storedData));
-        } else {
-            await AsyncStorage.setItem('Historique', JSON.stringify(storedData));
-        }*/
-    }
-
-    componentDidMount(){
-        // currentRouteName = this.state.navigationRef.current.getCurrentRoute().name;
-        console.log('currentRouteName', this.props.routeName)
     }
     
     render() {
@@ -107,7 +91,7 @@ export default class ListItem extends React.Component{
                             <Icon
                               name="heart"
                               size={25}
-                              color="#000000"
+                              color="#f39c12"
                             />
                         }
                         iconLeft

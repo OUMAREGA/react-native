@@ -1,8 +1,8 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+import { Button, Card } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {AsyncStorage, ActivityIndicator, SafeAreaView, FlatList, View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
-import { ActivityIndicator, SafeAreaView, FlatList, View, Text } from 'react-native';
-import ListItem  from './ListItem';
 
 
 class ListHistorique extends React.Component{
@@ -11,7 +11,8 @@ class ListHistorique extends React.Component{
         // Etat initial du composant
         this.state = { 
             tabCodeBar: [],
-            historique: []
+            historique: [],
+            hist: []
         }
     }
 
@@ -19,24 +20,17 @@ class ListHistorique extends React.Component{
             const value = await AsyncStorage.getItem('Historique');
             
             if (value !== null) {
-                this.setState({
-                    tabCodeBar: JSON.parse(value) 
-                })
-
-                this.state.tabCodeBar.forEach(code => {
-                    fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`) 
-                    .then((response) => response.json())
-                    .then( async (responseJson) => {
-                
-                        this.setState({
-                                historique: [...this.state.historique, responseJson.product]
-                            });
-                    })
-                    
-                });
+                this.setState({historique: JSON.parse(value)})
             }
+        }
 
-   }
+
+   delete = async (item, index) => {
+    let historyData = JSON.parse(await AsyncStorage.getItem('Historique'));
+    historyData = historyData.filter((el, i) => !(el.product_name + i === item.product_name + index));
+    await AsyncStorage.setItem('Historique', JSON.stringify(historyData))
+    this.setState({historique: historyData});
+}
 
     componentDidMount(){
         this.focusListener = this.props.navigation.addListener("focus", () => {
@@ -50,14 +44,40 @@ class ListHistorique extends React.Component{
     this.focusListener();
   }
 
-   list  = ({item}) => <ListItem item={item} navigation={this.props.navigation} routeName='Historique' />
+   list  = ({item, index}) => {
+       return (
+        <Card title={item.product_name}>
+            <View>
+                <TouchableOpacity onPress={()=> this._onPress(item)}>
+                    <Image 
+                    source={{uri: item.image_small_url || item.image_ingredients_small_url }}
+                    style={{ alignSelf: 'center', width: '100%', height: 150}}
+                    />
+                </TouchableOpacity>
+                    <Button 
+                    icon={
+                        <Icon
+                        name="trash"
+                        size={25}
+                        color="red"
+                        />
+                    }
+                    iconLeft
+                    title="" 
+                    type="clear"
+                    onPress={() => this.delete(item, index)}  
+                />
+            </View>
+        </Card>
+       )
+   }
 
    render(){
     // Affiche un loader tant que l'API n'a pas répondu
     if(this.state.historique.length === 0){
         return(
             <SafeAreaView style={{flex: 1, padding: 20}}>
-               <Text>Vous avez zéro scan</Text>
+               <Text style={{paddingLeft:20, paddingTop:20, color: 'tomato', fontSize: 20}}>Vous n'avez aucun produit dans l'historique</Text>
             </SafeAreaView>
         )
     }
@@ -67,8 +87,8 @@ class ListHistorique extends React.Component{
                 <Text style={{paddingLeft:20, paddingTop:20, color: 'tomato', fontSize: 20}}>Mes historiques</Text>
                 <FlatList
                     data={this.state.historique}
-                    renderItem={(item) => this.list(item)}
-                    keyExtractor={({id}, index) => id}
+                    renderItem={(item, index) => this.list(item, index)}
+                    keyExtractor={({id}, index) => id+index}
                 />
             </SafeAreaView>
         );
